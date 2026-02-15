@@ -17,7 +17,7 @@ import {
   BookOpen,
   Lock,
 } from 'lucide-react';
-import { HOME_CONTENT } from '@/lib/home-content';
+import { HOME_CONTENT, type ShowcaseItem } from '@/lib/home-content';
 import { projects, getProjectTitle, isProjectClickable } from '@/lib/data';
 import type { Project } from '@/lib/data';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
@@ -35,7 +35,7 @@ function ShowcaseCard({
   project,
   index,
 }: {
-  item: (typeof HOME_CONTENT.showcase.items)[0];
+  item: ShowcaseItem;
   project: Project | undefined;
   index: number;
 }) {

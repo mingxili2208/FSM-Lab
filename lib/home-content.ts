@@ -2,6 +2,11 @@
  * 首页文案与配置（可在此修改）
  */
 
+/** Showcase 单项：图片或视频，供类型推断与 page 中使用 */
+export type ShowcaseItem =
+  | { projectId: string; type: 'image'; src: string; alt: string }
+  | { projectId: string; type: 'video'; src: string; alt: string; poster?: string };
+
 export const HOME_CONTENT = {
   hero: {
     title: 'Redefining Future Mobility',
@@ -20,13 +25,13 @@ export const HOME_CONTENT = {
      * type: 'image' 为图片，'video' 为视频（可选 poster 封面）。
      */
     items: [
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/2023workshop.jpg', alt: '2023 Workshop' },
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/DSC04423.jpg', alt: 'Lab Activity' },
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/F1Award.jpg', alt: 'F1 Award' },
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/fsmlab240613.jpg', alt: 'FSM Lab' },
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/Zikang_Award.jpg', alt: 'Zikang Award' },
-      { projectId: 'lab-showcase', type: 'image' as const, src: '/showcase/zikang_wang.jpg', alt: 'Zikang Wang' },
-    ],
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/2023workshop.jpg', alt: '2023 Workshop' },
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/DSC04423.jpg', alt: 'Lab Activity' },
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/F1Award.jpg', alt: 'F1 Award' },
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/fsmlab240613.jpg', alt: 'FSM Lab' },
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/Zikang_Award.jpg', alt: 'Zikang Award' },
+      { projectId: 'lab-showcase', type: 'image', src: '/showcase/zikang_wang.jpg', alt: 'Zikang Wang' },
+    ] as ShowcaseItem[],
   },
   research: {
     heading: 'Research Focus',
