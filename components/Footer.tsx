@@ -44,7 +44,7 @@ export function Footer() {
                 <Linkedin size={18} />
               </a>
               <a
-                href="mailto:jian.wang@cityu.edu.hk"
+                href="mailto:fsmlab2025@gmail.com"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-white/90 transition-colors hover:bg-indigo-500 hover:text-white"
                 aria-label="Email"
               >
@@ -74,10 +74,10 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Mail size={16} className="shrink-0 text-indigo-400" />
                 <a
-                  href="mailto:jian.wang@cityu.edu.hk"
+                  href="mailto:fsmlab2025@gmail.com"
                   className="transition-colors hover:text-indigo-400"
                 >
-                  jian.wang@cityu.edu.hk
+                  fsmlab2025@gmail.com
                 </a>
               </li>
             </ul>
