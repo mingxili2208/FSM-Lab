@@ -24,6 +24,9 @@ import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 const ICONS = { network: Network, car: Car, cpu: Cpu };
 
+/** GitHub Pages 等部署时需加 basePath，本地开发为空 */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const CARD_WIDTH = 624;  /* 520 × 1.2 */
 const CARD_HEIGHT = 480; /* 400 × 1.2 */
 const CARD_GAP = 36;
@@ -50,8 +53,8 @@ function ShowcaseCard({
         {item.type === 'video' ? (
           'poster' in item && item.poster ? (
             <video
-              src={item.src}
-              poster={item.poster}
+              src={`${basePath}${item.src}`}
+              poster={`${basePath}${item.poster}`}
               muted
               loop
               playsInline
@@ -61,7 +64,7 @@ function ShowcaseCard({
             />
           ) : (
             <video
-              src={item.src}
+              src={`${basePath}${item.src}`}
               muted
               loop
               playsInline
@@ -73,7 +76,7 @@ function ShowcaseCard({
         ) : (
           <>
             <img
-              src={item.src}
+              src={`${basePath}${item.src}`}
               alt={item.alt}
               className="h-full w-full object-cover"
               onError={(e) => {
@@ -305,7 +308,7 @@ function PISection() {
               >
                 {hasPortrait ? (
                   <Image
-                    src={portrait.trim()}
+                    src={`${basePath}${portrait.trim()}`}
                     alt="Prof. Jianping Wang"
                     fill
                     className="object-cover"

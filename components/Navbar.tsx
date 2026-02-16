@@ -53,7 +53,7 @@ export function Navbar() {
         <div className="flex min-w-0 shrink items-center gap-3 sm:gap-4">
           <Link href="/" className="focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-lg shrink-0">
             <Image
-              src="/fsmlab_logo3.png"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/fsmlab_logo3.png`}
               alt="FSM Lab"
               width={160}
               height={40}
