@@ -17,8 +17,8 @@ import {
   BookOpen,
   Lock,
 } from 'lucide-react';
-import { HOME_CONTENT, type ShowcaseItem } from '@/lib/home-content';
-import { projects, getProjectTitle, isProjectClickable } from '@/lib/data';
+import { SHOWCASE_ITEMS, RESEARCH_ITEMS, PI_CONFIG, type ShowcaseItem } from '@/lib/home-content';
+import { projects, getProjectTitle, getProjectHref, isProjectClickable } from '@/lib/data';
 import type { Project } from '@/lib/data';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 
@@ -42,10 +42,10 @@ function ShowcaseCard({
   project: Project | undefined;
   index: number;
 }) {
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
   const title = project ? getProjectTitle(project, locale) : item.alt;
   const clickable = project ? isProjectClickable(project) : false;
-  const href = project ? `/projects#${project.id}` : undefined;
+  const href = project ? getProjectHref(project) : undefined;
 
   const content = (
     <>
@@ -90,7 +90,7 @@ function ShowcaseCard({
               }}
             />
             <div className="absolute inset-0 hidden items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 text-slate-500">
-              <span className="text-sm">Media</span>
+              <span className="text-sm">{t('home.fallback.media')}</span>
             </div>
           </>
         )}
@@ -129,8 +129,8 @@ function ShowcaseCard({
 }
 
 function ShowcaseCarousel() {
-  const { showcase } = HOME_CONTENT;
-  const items = showcase?.items ?? [];
+  const { t } = useLanguage();
+  const items = SHOWCASE_ITEMS;
   if (items.length === 0) return null;
 
   const projectMap = new Map(projects.map((p) => [p.id, p]));
@@ -141,7 +141,7 @@ function ShowcaseCarousel() {
       <div className="mx-auto w-full max-w-[1920px] px-6 py-12 md:py-16">
         <div className="mb-8 text-center md:mb-12">
           <h2 className="mb-3 text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
-            {showcase.heading}
+            {t('home.showcase.heading')}
           </h2>
           <div className="mx-auto h-1 w-16 rounded-full bg-indigo-500" />
         </div>
@@ -170,7 +170,7 @@ function ShowcaseCarousel() {
 }
 
 function Hero() {
-  const { hero } = HOME_CONTENT;
+  const { t } = useLanguage();
   return (
     <section className="snap-section relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 pt-20">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -181,45 +181,54 @@ function Hero() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ duration: 0.3 }}
           className="mb-6 text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl lg:text-7xl"
         >
-          {hero.title} <br />
+          {t('home.hero.title')} <br />
           <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-blue-400 bg-clip-text text-transparent">
-            {hero.titleHighlight}
+            {t('home.hero.titleHighlight')}
           </span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ duration: 0.3 }}
           className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl"
         >
-          {hero.subtitle}
+          {t('home.hero.subtitle')}
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="flex flex-col justify-center gap-4 sm:flex-row"
+          transition={{ duration: 0.3 }}
+          className="flex flex-col items-center gap-5"
         >
           <Link
-            href="/projects"
-            className="flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-semibold text-slate-900 shadow-lg shadow-white/5 transition-colors hover:bg-slate-200"
+            href="/projects/autonomous-validation"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-600 px-10 py-4 font-bold text-white shadow-lg shadow-violet-500/35 ring-2 ring-white/25 transition-all hover:shadow-xl hover:shadow-violet-500/45 hover:ring-white/40 active:scale-[0.98] sm:px-12 sm:py-5 sm:text-lg"
           >
-            {hero.cta}
-            <ChevronRight size={18} />
+            {t('home.hero.ctaAutonomous')}
+            <ChevronRight size={22} strokeWidth={2.5} />
           </Link>
-          <Link
-            href="/contact"
-            className="rounded-full border border-slate-700 bg-slate-800/50 px-8 py-4 font-medium text-white backdrop-blur-sm transition-colors hover:bg-slate-800"
-          >
-            {hero.ctaContact}
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/#research"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 font-semibold text-slate-900 shadow-md transition-colors hover:bg-slate-100 sm:px-8 sm:py-4"
+            >
+              {t('home.hero.cta')}
+              <ChevronRight size={18} />
+            </Link>
+            <Link
+              href="/about#contact"
+              className="inline-flex items-center justify-center rounded-full border border-slate-600 bg-slate-800/60 px-7 py-3.5 font-medium text-white transition-colors hover:border-slate-500 hover:bg-slate-700/80 sm:px-8 sm:py-4"
+            >
+              {t('home.hero.ctaContact')}
+            </Link>
+          </div>
         </motion.div>
       </div>
 
@@ -236,8 +245,11 @@ function Hero() {
   );
 }
 
+const RESEARCH_TITLE_KEYS = ['home.research.item1.title', 'home.research.item2.title', 'home.research.item3.title'] as const;
+const RESEARCH_DESC_KEYS = ['home.research.item1.desc', 'home.research.item2.desc', 'home.research.item3.desc'] as const;
+
 function ResearchPillars() {
-  const { research } = HOME_CONTENT;
+  const { t } = useLanguage();
   return (
     <section
       id="research"
@@ -246,21 +258,20 @@ function ResearchPillars() {
       <div className="mx-auto w-full max-w-7xl px-6">
         <div className="mb-12 md:mb-16">
           <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-            {research.heading}
+            {t('home.research.heading')}
           </h2>
           <div className="h-1 w-20 rounded-full bg-indigo-500" />
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {research.items.map((item, index) => {
+          {RESEARCH_ITEMS.map((item, index) => {
             const Icon = ICONS[item.iconKey];
             return (
               <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                key={item.iconKey}
+                initial={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
                 whileHover={{ y: -5 }}
                 className="group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-8 transition-all duration-300 hover:border-indigo-500/30 hover:bg-slate-900"
               >
@@ -269,10 +280,10 @@ function ResearchPillars() {
                   <Icon className="h-8 w-8 text-indigo-400" />
                 </div>
                 <h3 className="mb-4 text-xl font-bold text-white transition-colors group-hover:text-indigo-300">
-                  {item.title}
+                  {t(RESEARCH_TITLE_KEYS[index])}
                 </h3>
                 <p className="text-sm leading-relaxed text-slate-400">
-                  {item.desc}
+                  {t(RESEARCH_DESC_KEYS[index])}
                 </p>
               </motion.div>
             );
@@ -283,18 +294,22 @@ function ResearchPillars() {
   );
 }
 
+const PI_TAG_KEYS = ['home.pi.tag1', 'home.pi.tag2', 'home.pi.tag3', 'home.pi.tag4'] as const;
+
 function PISection() {
-  const { name, role, org, bio, tags, homepageUrl = 'https://www.cs.cityu.edu.hk/~jianwang/index.html', orgUrl, scholarUrl, googleScholarUrl, portrait } = HOME_CONTENT.pi;
+  const { t } = useLanguage();
+  const { homepageUrl, scholarUrl, googleScholarUrl, portrait, orgUrl } = PI_CONFIG;
   const hasPortrait = Boolean(portrait && portrait.trim());
+  const bioParagraphs = [t('home.pi.bio1'), t('home.pi.bio2')];
   return (
     <section className="snap-section relative flex min-h-screen flex-col justify-center overflow-hidden bg-slate-900 py-20">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-900 to-slate-900 pointer-events-none" />
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
         <div className="flex flex-col items-center gap-16 lg:flex-row">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
             className="relative w-full lg:w-1/3"
           >
             <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-slate-800 shadow-2xl shadow-black/50">
@@ -309,7 +324,7 @@ function PISection() {
                 {hasPortrait ? (
                   <Image
                     src={`${basePath}${portrait.trim()}`}
-                    alt="Prof. Jianping Wang"
+                    alt={t('home.pi.name')}
                     fill
                     className="object-cover"
                     unoptimized
@@ -354,15 +369,15 @@ function PISection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
             className="w-full lg:w-2/3"
           >
             <div className="mb-4 flex items-center gap-3">
               <Award className="text-indigo-400" size={24} />
               <span className="text-sm font-semibold uppercase tracking-wide text-indigo-400">
-                Principal Investigator
+                {t('home.pi.principalInvestigator')}
               </span>
             </div>
             <a
@@ -371,33 +386,33 @@ function PISection() {
               rel="noopener noreferrer"
               className="mb-2 block text-4xl font-bold text-white transition-colors hover:text-indigo-300 md:text-5xl"
             >
-              {name}
+              {t('home.pi.name')}
             </a>
-            <p className="mb-1 text-xl text-slate-300">{role}</p>
+            <p className="mb-1 text-xl text-slate-300">{t('home.pi.role')}</p>
             <p className="mb-8 flex items-center gap-2 text-slate-400">
               <MapPin size={16} />
               {orgUrl ? (
                 <a href={orgUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-indigo-400">
-                  {org}
+                  {t('home.pi.org')}
                 </a>
               ) : (
-                org
+                t('home.pi.org')
               )}
             </p>
             <div className="mb-8 space-y-4">
-              {bio.map((paragraph, idx) => (
+              {bioParagraphs.map((paragraph, idx) => (
                 <p key={idx} className="leading-relaxed text-slate-300">
                   {paragraph}
                 </p>
               ))}
             </div>
             <div className="flex flex-wrap gap-3">
-              {tags.map((tag) => (
+              {PI_TAG_KEYS.map((key) => (
                 <span
-                  key={tag}
+                  key={key}
                   className="flex items-center gap-2 rounded-full border border-white/5 bg-slate-800 px-4 py-2 text-sm text-indigo-300"
                 >
-                  <GraduationCap size={16} /> {tag}
+                  <GraduationCap size={16} /> {t(key)}
                 </span>
               ))}
             </div>
@@ -409,8 +424,7 @@ function PISection() {
 }
 
 function ProjectShowcase() {
-  const { locale } = useLanguage();
-  const { projects: copy } = HOME_CONTENT;
+  const { locale, t } = useLanguage();
   const featured = projects.slice(0, 2);
 
   return (
@@ -419,15 +433,15 @@ function ProjectShowcase() {
         <div className="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-              {copy.heading}
+              {t('home.projects.heading')}
             </h2>
-            <p className="text-slate-400">{copy.subheading}</p>
+            <p className="text-slate-400">{t('home.projects.subheading')}</p>
           </div>
           <Link
             href="/projects"
             className="hidden items-center gap-2 text-indigo-400 transition-colors hover:text-indigo-300 md:flex"
           >
-            {copy.viewAll} <ArrowRight size={16} />
+            {t('home.projects.viewAll')} <ArrowRight size={16} />
           </Link>
         </div>
 
@@ -435,20 +449,21 @@ function ProjectShowcase() {
           {featured.map((project) => {
             const clickable = isProjectClickable(project);
             const title = getProjectTitle(project, locale);
-            const gradient =
-              project.status === 'published'
-                ? 'from-indigo-900 to-slate-800'
-                : 'from-slate-900';
             return (
               <div
                 key={project.id}
                 className="group relative aspect-video overflow-hidden rounded-2xl border border-white/5 bg-slate-900"
               >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-80 transition-transform duration-700 ease-out group-hover:scale-105`}
+                {/* 封面图完整展示，不作为背景被渐变盖住 */}
+                <img
+                  src={project.coverImage}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  aria-hidden
                 />
+                {/* 仅底部渐变保证标题可读，不再整卡叠深色 */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent ${
+                  className={`absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent ${
                     project.status === 'coming_soon'
                       ? 'bg-slate-950/60 backdrop-blur-[2px]'
                       : ''
@@ -465,7 +480,7 @@ function ProjectShowcase() {
                     </div>
                     {project.status === 'coming_soon' && (
                       <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-white/70 backdrop-blur-md">
-                        <Lock size={12} /> {copy.comingSoon}
+                        <Lock size={12} /> {t('home.projects.comingSoon')}
                       </div>
                     )}
                   </div>
@@ -473,13 +488,13 @@ function ProjectShowcase() {
                   {clickable && (
                     <div className="h-0 overflow-hidden transition-all duration-300 group-hover:mt-4 group-hover:h-auto">
                       <p className="mb-4 line-clamp-2 text-sm text-slate-300">
-                        Brief description of the project. Click to view details.
+                        {t('home.projects.briefDesc')}
                       </p>
                       <Link
-                        href="/projects"
+                        href={getProjectHref(project)}
                         className="inline-flex items-center gap-1 border-b border-indigo-500 pb-0.5 text-sm font-medium text-white hover:text-indigo-300"
                       >
-                        View Case Study <ArrowRight size={14} />
+                        {t('home.projects.viewCaseStudy')} <ArrowRight size={14} />
                       </Link>
                     </div>
                   )}
@@ -498,6 +513,7 @@ const SCROLL_SNAP_BODY_CLASS = 'home-page-scroll-snap';
 export default function HomePage() {
   useEffect(() => {
     document.body.classList.add(SCROLL_SNAP_BODY_CLASS);
+    window.scrollTo(0, 0);
     return () => document.body.classList.remove(SCROLL_SNAP_BODY_CLASS);
   }, []);
 

@@ -18,6 +18,8 @@ export interface Project {
   category: string;
   coverImage: string;
   status: ProjectStatus;
+  /** 若有独立详情页，填路由 slug，链接为 /projects/[slug] */
+  slug?: string;
 }
 
 /**
@@ -39,8 +41,26 @@ export function isProjectClickable(project: Project): boolean {
   return project.status === 'published';
 }
 
+/**
+ * 项目详情链接：有 slug 时为 /projects/[slug]，否则为 /projects#id
+ */
+export function getProjectHref(project: Project): string {
+  return project.slug ? `/projects/${project.slug}` : `/projects#${project.id}`;
+}
+
 /** 模拟数据库：项目列表 */
 export const projects: Project[] = [
+  {
+    id: 'autonomous-validation-platform',
+    title: {
+      zh: '自动驾驶多尺度安全测试与安全验证一体化虚拟-物理平台',
+      en: 'Integrated Virtual-Physical Platform for Multi-scale Safety Testing and Security Validation of Autonomous Vehicles',
+    },
+    category: 'Autonomous Driving / Security',
+    coverImage: '/projects/autonomous-validation/hero-bridging-the-gap.png',
+    status: 'published',
+    slug: 'autonomous-validation',
+  },
   {
     id: 'lab-showcase',
     title: {
@@ -52,7 +72,7 @@ export const projects: Project[] = [
       ar: 'منصة عرض المختبر',
     },
     category: 'platform',
-    coverImage: '/images/placeholder-published.jpg',
+    coverImage: '/images/coming_soon.png',
     status: 'published',
   },
   {
@@ -66,7 +86,7 @@ export const projects: Project[] = [
       ar: 'قريباً المشروع أ',
     },
     category: 'research',
-    coverImage: '/images/placeholder-coming.jpg',
+    coverImage: '/images/coming_soon.png',
     status: 'coming_soon',
   },
   {
@@ -80,7 +100,7 @@ export const projects: Project[] = [
       ar: 'قريباً المشروع ب',
     },
     category: 'demo',
-    coverImage: '/images/placeholder-coming.jpg',
+    coverImage: '/images/coming_soon2.png',
     status: 'coming_soon',
   },
 ];
