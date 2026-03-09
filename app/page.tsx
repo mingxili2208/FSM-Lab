@@ -267,25 +267,29 @@ function ResearchPillars() {
           {RESEARCH_ITEMS.map((item, index) => {
             const Icon = ICONS[item.iconKey];
             return (
-              <motion.div
-                key={item.iconKey}
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -5 }}
-                className="group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-8 transition-all duration-300 hover:border-indigo-500/30 hover:bg-slate-900"
-              >
-                <div className="absolute right-0 top-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-[50px] transition-all group-hover:bg-indigo-500/20" />
-                <div className="mb-6 w-fit rounded-xl bg-slate-800 p-3 ring-1 ring-white/10 transition-all duration-300 group-hover:scale-110 group-hover:ring-indigo-500/50">
-                  <Icon className="h-8 w-8 text-indigo-400" />
-                </div>
-                <h3 className="mb-4 text-xl font-bold text-white transition-colors group-hover:text-indigo-300">
-                  {t(RESEARCH_TITLE_KEYS[index])}
-                </h3>
-                <p className="text-sm leading-relaxed text-slate-400">
-                  {t(RESEARCH_DESC_KEYS[index])}
-                </p>
-              </motion.div>
+              <Link key={item.iconKey} href={`/research?focus=${item.focusId}`}>
+                <motion.div
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ y: -5 }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-8 transition-all duration-300 hover:border-indigo-500/30 hover:bg-slate-900 cursor-pointer"
+                >
+                  <div className="absolute right-0 top-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-[50px] transition-all group-hover:bg-indigo-500/20" />
+                  <div className="mb-6 w-fit rounded-xl bg-slate-800 p-3 ring-1 ring-white/10 transition-all duration-300 group-hover:scale-110 group-hover:ring-indigo-500/50">
+                    <Icon className="h-8 w-8 text-indigo-400" />
+                  </div>
+                  <h3 className="mb-4 text-xl font-bold text-white transition-colors group-hover:text-indigo-300">
+                    {t(RESEARCH_TITLE_KEYS[index])}
+                  </h3>
+                  <p className="mb-4 text-sm leading-relaxed text-slate-400">
+                    {t(RESEARCH_DESC_KEYS[index])}
+                  </p>
+                  <span className="text-xs font-semibold text-indigo-400">
+                    {t('nav.research')} →
+                  </span>
+                </motion.div>
+              </Link>
             );
           })}
         </div>

@@ -20,6 +20,8 @@ export interface Project {
   status: ProjectStatus;
   /** 若有独立详情页，填路由 slug，链接为 /projects/[slug] */
   slug?: string;
+  /** 外部链接 — 若设置，卡片将以新标签页打开此 URL */
+  externalUrl?: string;
 }
 
 /**
@@ -35,16 +37,17 @@ export function getProjectTitle(project: Project, locale: LocaleCode): string {
 }
 
 /**
- * 判断项目是否可点击（仅 published 可点击）
+ * 判断项目是否可点击（published 或有 externalUrl 的均可点击）
  */
 export function isProjectClickable(project: Project): boolean {
-  return project.status === 'published';
+  return project.status === 'published' || !!project.externalUrl;
 }
 
 /**
- * 项目详情链接：有 slug 时为 /projects/[slug]，否则为 /projects#id
+ * 项目详情链接：优先 externalUrl，其次 /projects/[slug]，再次 /projects#id
  */
 export function getProjectHref(project: Project): string {
+  if (project.externalUrl) return project.externalUrl;
   return project.slug ? `/projects/${project.slug}` : `/projects#${project.id}`;
 }
 
@@ -62,45 +65,62 @@ export const projects: Project[] = [
     slug: 'autonomous-validation',
   },
   {
-    id: 'lab-showcase',
+    id: 'realtime-map',
     title: {
-      zh: '实验室展示平台',
-      en: 'Lab Showcase Platform',
-      fr: 'Plateforme de présentation du laboratoire',
-      ru: 'Платформа витрины лаборатории',
-      es: 'Plataforma de presentación del laboratorio',
-      ar: 'منصة عرض المختبر',
+      zh: '实时地图构建与利用：自动驾驶端到端框架',
+      en: 'Real-time Map Construction and Utilization: An End-to-End Framework for Autonomous Driving',
     },
-    category: 'platform',
-    coverImage: '/images/coming_soon.png',
+    category: 'Autonomous Driving / Mapping',
+    coverImage: '/projects/others/R/cover.png',
     status: 'published',
+    slug: 'realtime-map',
   },
   {
-    id: 'coming-soon-1',
+    id: 'remote-driving',
     title: {
-      zh: '敬请期待项目 A',
-      en: 'Coming Soon Project A',
-      fr: 'Projet à venir A',
-      ru: 'Скоро проект A',
-      es: 'Proyecto próximamente A',
-      ar: 'قريباً المشروع أ',
+      zh: '自动驾驶车辆多级远程驾驶框架',
+      en: 'A Multi-Level Remote Driving Framework for Autonomous Vehicles',
     },
-    category: 'research',
-    coverImage: '/images/coming_soon.png',
-    status: 'coming_soon',
+    category: 'Autonomous Driving / Teleoperation',
+    coverImage: '/projects/others/A/cover.png',
+    status: 'published',
+    slug: 'remote-driving',
   },
   {
-    id: 'coming-soon-2',
+    id: 'scenario-planning',
     title: {
-      zh: '敬请期待项目 B',
-      en: 'Coming Soon Project B',
-      fr: 'Projet à venir B',
-      ru: 'Скоро проект B',
-      es: 'Proyecto próximamente B',
-      ar: 'قريباً المشروع ب',
+      zh: '自动驾驶系统中场景驱动的运动规划模型选择',
+      en: 'Scenario-driven Motion Planning Model Selection in Autonomous Driving Systems',
     },
-    category: 'demo',
+    category: 'Autonomous Driving / Motion Planning',
+    coverImage: '/projects/others/S/__image_1.png',
+    status: 'published',
+    slug: 'scenario-planning',
+  },
+  {
+    id: 'uncertainty-handling',
+    title: {
+      zh: '自动驾驶系统中不确定性的建模与处理',
+      en: 'Modelling and Handling Uncertainties in Autonomous Driving Systems',
+    },
+    category: 'Autonomous Driving / Safety',
+    coverImage: '/projects/others/M/cover.png',
+    status: 'published',
+    slug: 'uncertainty-handling',
+  },
+  {
+    id: 'more-projects',
+    title: {
+      zh: '查看更多项目 →',
+      en: 'View More Projects →',
+      fr: 'Voir plus de projets →',
+      ru: 'Смотреть больше проектов →',
+      es: 'Ver más proyectos →',
+      ar: '← عرض المزيد من المشاريع',
+    },
+    category: 'CityUHK Scholars',
     coverImage: '/images/coming_soon2.png',
-    status: 'coming_soon',
+    status: 'published',
+    externalUrl: 'https://scholars.cityu.edu.hk/en/persons/jianwang/projects/',
   },
 ];

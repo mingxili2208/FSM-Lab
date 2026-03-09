@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { projects, getProjectTitle, getProjectHref, isProjectClickable } from '@/lib/data';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
-import { Lock } from 'lucide-react';
+import { Lock, ExternalLink } from 'lucide-react';
 
 export default function ProjectsPage() {
   const { locale, t } = useLanguage();
@@ -20,6 +20,7 @@ export default function ProjectsPage() {
           const title = getProjectTitle(project, locale);
           const href = getProjectHref(project);
           const clickable = isProjectClickable(project);
+          const isExternal = !!project.externalUrl;
 
           const cardContent = (
             <>
@@ -39,15 +40,34 @@ export default function ProjectsPage() {
                   <Lock size={12} /> {t('projects.comingSoon')}
                 </div>
               )}
+              {isExternal && (
+                <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-indigo-400">
+                  <ExternalLink size={12} /> scholars.cityu.edu.hk
+                </div>
+              )}
             </>
           );
+
+          if (isExternal) {
+            return (
+              <a
+                key={project.id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-slate-700 bg-slate-900/60 p-6 transition-colors hover:border-indigo-500/50 hover:bg-slate-900/80"
+              >
+                {cardContent}
+              </a>
+            );
+          }
 
           if (clickable) {
             return (
               <Link
                 key={project.id}
                 href={href}
-                className={`block rounded-2xl border border-slate-700 bg-slate-900/60 p-6 transition-colors hover:border-indigo-500/50 hover:bg-slate-900/80`}
+                className="block rounded-2xl border border-slate-700 bg-slate-900/60 p-6 transition-colors hover:border-indigo-500/50 hover:bg-slate-900/80"
               >
                 {cardContent}
               </Link>
@@ -67,3 +87,4 @@ export default function ProjectsPage() {
     </div>
   );
 }
+

@@ -15,7 +15,7 @@ const RESEARCH_SCHOLAR_URL = 'https://scholars.cityu.edu.hk/en/persons/jianwang/
 
 const NAV_ITEMS: { key: 'nav.home' | 'nav.research' | 'nav.project' | 'nav.about'; href: string }[] = [
   { key: 'nav.home', href: '/' },
-  { key: 'nav.research', href: RESEARCH_SCHOLAR_URL },
+  { key: 'nav.research', href: '/research' },
   { key: 'nav.project', href: '/projects' },
   { key: 'nav.about', href: '/about' },
 ];

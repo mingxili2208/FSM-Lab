@@ -18,11 +18,11 @@ export const SHOWCASE_ITEMS: ShowcaseItem[] = [
   { projectId: 'lab-showcase', type: 'image', src: '/showcase/zikang_wang.jpg', alt: 'Zikang Wang' },
 ];
 
-/** 研究板块三项：标题与描述使用 t('home.research.itemN.title/desc')，iconKey 固定 */
-export const RESEARCH_ITEMS: { iconKey: 'network' | 'car' | 'cpu' }[] = [
-  { iconKey: 'network' },
-  { iconKey: 'car' },
-  { iconKey: 'cpu' },
+/** 研究板块三项：标题与描述使用 t('home.research.itemN.title/desc')，iconKey 固定，focusId 用于跳转 /research?focus=xxx */
+export const RESEARCH_ITEMS: { iconKey: 'network' | 'car' | 'cpu'; focusId: 'ncs' | 'cav' | 'cps' }[] = [
+  { iconKey: 'network', focusId: 'ncs' },
+  { iconKey: 'car', focusId: 'cav' },
+  { iconKey: 'cpu', focusId: 'cps' },
 ];
 
 /** PI 信息：姓名/职位/单位/简介/标签由 t() 提供；链接与头像路径固定 */
